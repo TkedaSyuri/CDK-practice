@@ -1,0 +1,36 @@
+{
+  "version": "41.0.0",
+  "files": {
+    "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200": {
+      "displayName": "NetworkCdkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider Code",
+      "source": {
+        "path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "047719644594-ap-northeast-1": {
+          "bucketName": "cdk-hnb659fds-assets-047719644594-ap-northeast-1",
+          "objectKey": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip",
+          "region": "ap-northeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::047719644594:role/cdk-hnb659fds-file-publishing-role-047719644594-ap-northeast-1"
+        }
+      }
+    },
+    "337651d7c6c9deeb083795b18f0b9f194ceb23b929123a344d927a3f0ff1b6c2": {
+      "displayName": "NetworkCdkStack Template",
+      "source": {
+        "path": "NetworkCdkStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "047719644594-ap-northeast-1": {
+          "bucketName": "cdk-hnb659fds-assets-047719644594-ap-northeast-1",
+          "objectKey": "337651d7c6c9deeb083795b18f0b9f194ceb23b929123a344d927a3f0ff1b6c2.json",
+          "region": "ap-northeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::047719644594:role/cdk-hnb659fds-file-publishing-role-047719644594-ap-northeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

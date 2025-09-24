@@ -1,0 +1,326 @@
+{
+ "Resources": {
+  "networkcdkvpc64770022": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "192.168.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "network-cdk-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-vpc/Resource"
+   }
+  },
+  "networkcdkvpcRestrictDefaultSecurityGroupCustomResource57D28207": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "networkcdkvpc64770022",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": "047719644594"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-vpc/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:aws:ec2:ap-northeast-1:047719644594:security-group/",
+             {
+              "Fn::GetAtt": [
+               "networkcdkvpc64770022",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-047719644594-ap-northeast-1",
+     "S3Key": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+    "aws:asset:property": "Code"
+   }
+  },
+  "networkcdksubnetpublicSubnet911FF2EE": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ap-northeast-1a",
+    "CidrBlock": "192.168.0.0/24",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkCdkStack/network-cdk-subnet-public"
+     }
+    ],
+    "VpcId": {
+     "Ref": "networkcdkvpc64770022"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-public/Subnet"
+   }
+  },
+  "networkcdksubnetpublicRouteTable80DFEF0E": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkCdkStack/network-cdk-subnet-public"
+     }
+    ],
+    "VpcId": {
+     "Ref": "networkcdkvpc64770022"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-public/RouteTable"
+   }
+  },
+  "networkcdksubnetpublicRouteTableAssociation6BB2852A": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "networkcdksubnetpublicRouteTable80DFEF0E"
+    },
+    "SubnetId": {
+     "Ref": "networkcdksubnetpublicSubnet911FF2EE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-public/RouteTableAssociation"
+   }
+  },
+  "networkcdksubnetprivateSubnet07F77A8E": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ap-northeast-1a",
+    "CidrBlock": "192.168.1.0/24",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkCdkStack/network-cdk-subnet-private"
+     }
+    ],
+    "VpcId": {
+     "Ref": "networkcdkvpc64770022"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-private/Subnet"
+   }
+  },
+  "networkcdksubnetprivateRouteTableB3E596F8": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkCdkStack/network-cdk-subnet-private"
+     }
+    ],
+    "VpcId": {
+     "Ref": "networkcdkvpc64770022"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-private/RouteTable"
+   }
+  },
+  "networkcdksubnetprivateRouteTableAssociationE439AD9F": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "networkcdksubnetprivateRouteTableB3E596F8"
+    },
+    "SubnetId": {
+     "Ref": "networkcdksubnetprivateSubnet07F77A8E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-private/RouteTableAssociation"
+   }
+  },
+  "networkcdksubnetintraSubnet91E83D10": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ap-northeast-1a",
+    "CidrBlock": "192.168.2.0/24",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkCdkStack/network-cdk-subnet-intra"
+     }
+    ],
+    "VpcId": {
+     "Ref": "networkcdkvpc64770022"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-intra/Subnet"
+   }
+  },
+  "networkcdksubnetintraRouteTableCF53360A": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "NetworkCdkStack/network-cdk-subnet-intra"
+     }
+    ],
+    "VpcId": {
+     "Ref": "networkcdkvpc64770022"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-intra/RouteTable"
+   }
+  },
+  "networkcdksubnetintraRouteTableAssociation3B5B8D57": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "networkcdksubnetintraRouteTableCF53360A"
+    },
+    "SubnetId": {
+     "Ref": "networkcdksubnetintraSubnet91E83D10"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/network-cdk-subnet-intra/RouteTableAssociation"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/71QTWvCQBD9Le5R1q2GXupNcxAvRbR4aJAy2R1lNNkNO5OIhPz3YrQKhV57mpk38z6YxEzexmY8gDOPrDuNCspNuxGwJw1n/kKbmHZb2axVVM2ci8iMrKZqqLRqKvsOJd4naIAKyKkguXwG/7jiOvcoafB7OtQRhIJX02ynlY0IgksvGD3KAgTPcFHTPRSM3U6ne79dpXrT07P26rZ0d01LLs6LYE9/ePdwp/+N1Ke9Jb1261ALfkBe4BN/YjPmYKl/RKfTmiWUa+RQR4uZGqpe6wf4tV/F0JDDOAdGPWNG2QgcyB/0Q2HXaR8cmiO/NEliJq9mPDgy0SjWXqhEs77Vb5+H7MH5AQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NetworkCdkStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

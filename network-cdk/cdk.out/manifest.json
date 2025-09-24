@@ -1,0 +1,198 @@
+{
+  "version": "41.0.0",
+  "artifacts": {
+    "NetworkCdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "NetworkCdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "NetworkCdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://047719644594/ap-northeast-1",
+      "properties": {
+        "templateFile": "NetworkCdkStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::047719644594:role/cdk-hnb659fds-deploy-role-047719644594-ap-northeast-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::047719644594:role/cdk-hnb659fds-cfn-exec-role-047719644594-ap-northeast-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-047719644594-ap-northeast-1/337651d7c6c9deeb083795b18f0b9f194ceb23b929123a344d927a3f0ff1b6c2.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "NetworkCdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::047719644594:role/cdk-hnb659fds-lookup-role-047719644594-ap-northeast-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "NetworkCdkStack.assets"
+      ],
+      "metadata": {
+        "/NetworkCdkStack/network-cdk-vpc": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "ipAddresses": "*",
+              "vpcName": "*",
+              "availabilityZones": "*",
+              "subnetConfiguration": [],
+              "createInternetGateway": false
+            }
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-vpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdkvpc64770022"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-vpc/RestrictDefaultSecurityGroupCustomResource": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-vpc/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdkvpcRestrictDefaultSecurityGroupCustomResource57D28207"
+          }
+        ],
+        "/NetworkCdkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/NetworkCdkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/NetworkCdkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-public": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "availabilityZone": "*"
+            }
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-public/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetpublicSubnet911FF2EE"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-public/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetpublicRouteTable80DFEF0E"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-public/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetpublicRouteTableAssociation6BB2852A"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-private": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "availabilityZone": "*"
+            }
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-private/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetprivateSubnet07F77A8E"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-private/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetprivateRouteTableB3E596F8"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-private/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetprivateRouteTableAssociationE439AD9F"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-intra": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpcId": "*",
+              "cidrBlock": "*",
+              "availabilityZone": "*"
+            }
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-intra/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetintraSubnet91E83D10"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-intra/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetintraRouteTableCF53360A"
+          }
+        ],
+        "/NetworkCdkStack/network-cdk-subnet-intra/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "networkcdksubnetintraRouteTableAssociation3B5B8D57"
+          }
+        ],
+        "/NetworkCdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/NetworkCdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/NetworkCdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "NetworkCdkStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "minimumCliVersion": "2.1005.0"
+}
